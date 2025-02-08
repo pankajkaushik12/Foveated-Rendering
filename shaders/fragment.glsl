@@ -3,6 +3,7 @@
 uniform bool foveatedRendering;
 uniform vec2 eyePos;
 uniform vec2 focalLength;
+float circleThickness = 0.001;  // The thickness of the circle
 
 in vec2 TexCoord;
 out vec4 FragColor;
@@ -55,7 +56,19 @@ vec2 rectangularFoveatedInverseMapping(vec2 pixel) {
 
 void main() {
     if (foveatedRendering) {
+        float dist = length(TexCoord - eyePos);
+        float region1 = length(focalLength) / 3.f;
+        float region2 = length(focalLength) / 1.5f;
         FragColor = texture(textureSampler, rectangularFoveatedInverseMapping(TexCoord));
+        if (dist > region1 - circleThickness && dist < region1 + circleThickness){
+            FragColor = mix(FragColor, vec4(1, 1, 0, 1), 0.5);
+        }
+        if (dist > region2 - circleThickness && dist < region2 + circleThickness){
+            FragColor = mix(FragColor, vec4(1, 0, 1, 1), 0.5);
+        }
+        if (dist < 0.005){
+            FragColor = mix(FragColor, vec4(1, 0, 0, 1), 0.5);
+        }
 	}
 	else
 	{

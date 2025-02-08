@@ -2,8 +2,8 @@
 
 This project implements **foveated rendering** based on the paper *"Rectangular Mapping-based Foveated Rendering"*. The rendering pipeline consists of two passes:
 
-1. **First Pass (CUDA OptiX)** - Ray tracing is performed using NVIDIA OptiX.
-2. **Second Pass (OpenGL Shader)** - The OptiX output is processed in OpenGL to display the final result.
+1. **First Pass (CUDA OptiX)** - A lower-resolution foveated image is generated to optimize computational efficiency.
+2. **Second Pass (OpenGL Shader)** - An OpenGL shader reconstructs the full-resolution image by mapping the foveated output onto the original framebuffer.
 
 ## Features
 - Efficient foveated rendering using a **rectangular mapping approach**
@@ -21,8 +21,8 @@ This project implements **foveated rendering** based on the paper *"Rectangular 
 
 1. Clone the repository:
    ```sh
-   git clone <repo-url>
-   cd <repo-folder>
+   git clone https://github.com/pankajkaushik12/Foveated-Rendering.git
+   cd Foveated-Rendering
    ```
 2. Install the dependencies (OpenGL, GLFW, GLEW)
 3. Set the path to GLEW and GLFW as environment variable in GLEW_DIR & GLFW_DIR.
@@ -32,6 +32,13 @@ This project implements **foveated rendering** based on the paper *"Rectangular 
 ## Control
 - Move the cursor to change the focus point. (Cursor point is treated a focus point).
 - Enable the *Foveated rendering* and change the slider to adjust the size of the temp buffer.
+
+## Output
+The red point represents the focus point, while the yellow and magenta regions correspond to the first and second foveal regions, respectively. The area outside the magenta circle is classified as the peripheral region.
+
+![](/Images/1.png)
+
+![](/Images/2.png)
 
 ## References
 - *"Rectangular Mapping-based Foveated Rendering"* - [Paper Link](https://ieeexplore.ieee.org/document/9756831)

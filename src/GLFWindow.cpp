@@ -293,27 +293,6 @@ void GLFWindow::tabs() {
 
 void GLFWindow::otherRenderingParams() {
 
-    if (foveatedRendering && ImGui::CollapsingHeader("Foveated rendering params")) {
-        std::string s = "Focal length ";
-        if (ImGui::DragFloat2(s.c_str(), &focalLength.x, 0.001f, 0.1f, 1.0f))
-        {
-            renderParamsChanged = true;
-        }
-
-        s = "Eye Position ";
-        if (ImGui::DragFloat2(s.c_str(), &eyePos.x, 0.001f, 0.01f, 1.0f))
-        {
-			renderParamsChanged = true;
-		}
-        ImGui::Text("Eye pos: %f, %f", eyePos.x * fbSize.x, eyePos.y * fbSize.y);
-
-        s = "Aspect raio of original frame and foveated render frame size ";
-        if (ImGui::DragFloat(s.c_str(), &aspectRatio, 0.01f, 0.1f, 1.0f))
-        {
-            renderParamsChanged = true;
-        }
-    }
-
     if (ImGui::CollapsingHeader("Environment Tone mapping")) {
         const char* options[] = { "Exposure", "Gamma", "Reinhard", "Filmic" };
         ImGui::Text("Choose a tone map method");
@@ -404,10 +383,36 @@ void GLFWindow::renderImgui() {
     tabs();
     ImGui::Separator();
 
-    otherRenderingParams();
-    ImGui::Separator();
+    //otherRenderingParams();
+    //ImGui::Separator();
 
     ImGui::End();
+
+    if (foveatedRendering)
+    {
+        ImGui::Begin("Foveated Rendering Params");
+
+        std::string s = "Focal length ";
+        if (ImGui::DragFloat2(s.c_str(), &focalLength.x, 0.001f, 0.1f, 1.0f))
+        {
+            renderParamsChanged = true;
+        }
+
+        s = "Eye Position ";
+        if (ImGui::DragFloat2(s.c_str(), &eyePos.x, 0.001f, 0.01f, 1.0f))
+        {
+            renderParamsChanged = true;
+        }
+        ImGui::Text("Eye pos: %f, %f", eyePos.x * fbSize.x, eyePos.y * fbSize.y);
+
+        s = "Aspect raio of original frame and foveated render frame size ";
+        if (ImGui::DragFloat(s.c_str(), &aspectRatio, 0.01f, 0.1f, 1.0f))
+        {
+            renderParamsChanged = true;
+        }
+
+        ImGui::End();
+    }
 }
 
 void GLFWindow::draw(uint8_t* pixels)
